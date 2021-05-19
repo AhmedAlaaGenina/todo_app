@@ -13,12 +13,16 @@ part 'todo_state.dart';
 class TodoCubit extends Cubit<TodoState> {
   TodoCubit() : super(TodoInitial());
   Database database;
-  List<Map> tasks = [];
+  List<Map> newTasks = [];
+  List<Map> doneTasks = [];
+  List<Map> archivedTasks = [];
   bool isBottomSheetShown = false;
   IconData fabIcon = Icons.edit;
+
   static TodoCubit get(context) => BlocProvider.of(context);
 
   int indexPage = 0;
+
   void changeBottomSheetShown(
       {@required bool isShow, @required IconData icon}) {
     isBottomSheetShown = isShow;
@@ -48,11 +52,7 @@ class TodoCubit extends Cubit<TodoState> {
       },
       onOpen: (database) {
         print('database Opened');
-        getDataFromDatabase(database).then((value) {
-          tasks = value;
-          print(tasks);
-          emit(TodoGetDataFromDatabaseState());
-        });
+        getDataFromDatabase(database);
       },
     ).then((value) {
       database = value;
@@ -71,11 +71,7 @@ class TodoCubit extends Cubit<TodoState> {
               'INSERT INTO tasks(title,date,time,status) VALUES("$title","$date","$time","New")')
           .then((value) {
         print("$value insert successfully");
-        getDataFromDatabase(database).then((value) {
-          tasks = value;
-          print(tasks);
-          emit(TodoGetDataFromDatabaseState());
-        });
+        getDataFromDatabase(database);
         emit(TodoInsertToDataBaseState());
       }).catchError(
         (error) => print("Error when inserting ${error.toString()}"),
@@ -83,9 +79,34 @@ class TodoCubit extends Cubit<TodoState> {
     );
   }
 
-  Future<List<Map>> getDataFromDatabase(Database db) async {
+  void updateDataBase({
+    @required String status,
+    @required int id,
+  }) async {
+    await database.rawUpdate('UPDATE tasks SET status = ? WHERE id = ?',
+        ['$status', id]).then((value) {
+      getDataFromDatabase(database);
+      emit(TodoUpDataDatabaseState());
+    });
+  }
+
+  void getDataFromDatabase(Database db) {
+    newTasks = [];
+    doneTasks = [];
+    archivedTasks = [];
     emit(TodoGetDatabaseLoadingState());
-    return await db.rawQuery('SELECT * FROM tasks');
+    db.rawQuery('SELECT * FROM tasks').then((value) {
+      value.forEach((element) {
+        if (element['status'] == 'New') {
+          newTasks.add(element);
+        } else if (element['status'] == 'done') {
+          doneTasks.add(element);
+        } else {
+          archivedTasks.add(element);
+        }
+      });
+      emit(TodoGetDataFromDatabaseState());
+    });
   }
 
   void changeIndex(int index) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/shared/cubit/todo_cubit.dart';
 
 Widget defaultButton({
   double width = double.infinity,
@@ -81,22 +82,47 @@ class BuildTaskItem extends StatelessWidget {
           SizedBox(
             width: 20,
           ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "${model['title']}",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${model['title']}",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Text(
-                "${model['date']}",
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
+                Text(
+                  "${model['date']}",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          IconButton(
+            onPressed: () {
+              TodoCubit.get(context)
+                  .updateDataBase(status: "done", id: model['id']);
+            },
+            icon: Icon(
+              Icons.check_circle_outline,
+              color: Colors.green,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              TodoCubit.get(context)
+                  .updateDataBase(status: "archived", id: model['id']);
+            },
+            icon: Icon(
+              Icons.archive_outlined,
+              color: Colors.black45,
+            ),
           ),
         ],
       ),

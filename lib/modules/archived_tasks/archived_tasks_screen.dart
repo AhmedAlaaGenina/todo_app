@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/shared/components/components.dart';
+import 'package:todo_app/shared/cubit/todo_cubit.dart';
 
 class ArchivedTasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        "Archived Tasks",
-        style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+    return BlocConsumer<TodoCubit, TodoState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        var tasks = TodoCubit.get(context).archivedTasks;
+        return ListView.separated(
+          itemBuilder: (context, index) => BuildTaskItem(tasks[index]),
+          itemCount: tasks.length,
+          separatorBuilder: (context, index) => Divider(),
+        );
+      },
     );
   }
 }

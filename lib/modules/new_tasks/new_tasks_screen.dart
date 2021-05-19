@@ -12,7 +12,7 @@ class NewTasksScreen extends StatelessWidget {
         // TODO: implement listener
       },
       builder: (context, state) {
-        var tasks = TodoCubit.get(context).tasks;
+        var tasks = TodoCubit.get(context).newTasks;
         return ListView.separated(
           itemBuilder: (context, index) => BuildTaskItem(tasks[index]),
           itemCount: tasks.length,
