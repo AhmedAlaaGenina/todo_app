@@ -22,7 +22,8 @@ To-Do App is Aflutter App That help to mange tasks
 <img align="left" width="270" height="570" src="Screenshots/8.png">
 <img align="left" width="270" height="570" src="Screenshots/9.png">
 <img align="left" width="270" height="570" src="Screenshots/10.png">
-<img align="left" width="270" height="570" src="Screenshots/11.png">
+<img  width="270" height="570" src="Screenshots/11.png">  
+
 
 
 ## Features
