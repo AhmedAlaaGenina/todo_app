@@ -7,16 +7,10 @@ class ArchivedTasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TodoCubit, TodoState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var tasks = TodoCubit.get(context).archivedTasks;
-        return ListView.separated(
-          itemBuilder: (context, index) => BuildTaskItem(tasks[index]),
-          itemCount: tasks.length,
-          separatorBuilder: (context, index) => Divider(),
-        );
+        return TasksBuilder(tasks: tasks);
       },
     );
   }

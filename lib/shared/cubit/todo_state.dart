@@ -15,6 +15,8 @@ class TodoGetDataFromDatabaseState extends TodoState {}
 
 class TodoUpDataDatabaseState extends TodoState {}
 
+class TodoDeleteDataState extends TodoState {}
+
 class TodoChangeBottomSheetState extends TodoState {}
 
 class TodoGetDatabaseLoadingState extends TodoState {}

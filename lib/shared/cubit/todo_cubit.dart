@@ -90,6 +90,16 @@ class TodoCubit extends Cubit<TodoState> {
     });
   }
 
+  void deleteData({
+    @required int id,
+  }) async {
+    await database
+        .rawDelete('DELETE FROM tasks WHERE id = ?', [id]).then((value) {
+      getDataFromDatabase(database);
+      emit(TodoDeleteDataState());
+    });
+  }
+
   void getDataFromDatabase(Database db) {
     newTasks = [];
     doneTasks = [];

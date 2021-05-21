@@ -23,9 +23,7 @@ class HomeLayout extends StatelessWidget {
     return BlocProvider<TodoCubit>(
       create: (context) => TodoCubit()..createDataBase(),
       child: BlocConsumer<TodoCubit, TodoState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           TodoCubit cubit = TodoCubit.get(context);
           return Scaffold(
